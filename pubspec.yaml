@@ -13,6 +13,7 @@ dependencies:
   plugin_platform_interface: ^2.1.8
 
   dio: ^5.5.0+1
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:

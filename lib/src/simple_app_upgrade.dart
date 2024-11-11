@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../app_upgrade.dart';
 import 'app_market.dart';
 import 'download_status.dart';
-import 'liquid_progress_indicator.dart';
 
 ///
 /// des:app升级提示控件
@@ -243,14 +243,21 @@ class _SimpleAppUpgradeWidget extends State<SimpleAppUpgradeWidget> {
 
   /// 下载进度widget
   Widget _buildDownloadProgress() {
-    return widget.progressBar ??
-        LiquidLinearProgressIndicator(
-          value: _downloadProgress,
-          direction: Axis.vertical,
-          valueColor: AlwaysStoppedAnimation(widget.progressBarColor ??
-              Theme.of(context).primaryColor.withOpacity(0.4)),
-          borderRadius: widget.borderRadius,
-        );
+    return LinearPercentIndicator(
+      width: 140.0,
+      lineHeight: 14.0,
+      percent: _downloadProgress,
+      backgroundColor: Colors.grey,
+      progressColor: Colors.blue,
+    );
+    // , ??
+    //     LiquidLinearProgressIndicator(
+    //       value: _downloadProgress,
+    //       direction: Axis.vertical,
+    //       valueColor: AlwaysStoppedAnimation(widget.progressBarColor ??
+    //           Theme.of(context).primaryColor.withOpacity(0.4)),
+    //       borderRadius: widget.borderRadius,
+    //     );
   }
 
   /// 点击确定按钮
