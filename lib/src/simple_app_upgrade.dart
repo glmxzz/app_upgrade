@@ -92,7 +92,7 @@ class _SimpleAppUpgradeWidget extends State<SimpleAppUpgradeWidget> {
         _buildInfoWidget(context),
         _downloadProgress > 0
             ? Positioned(
-                left: 0, right: 0, bottom: 75, child: _buildDownloadProgress())
+                left: 0, right: 0, bottom: widget.actionLayoutHeight + 10, child: _buildDownloadProgress())
             : Container(
                 height: 10 + widget.progressHeight,
               )
