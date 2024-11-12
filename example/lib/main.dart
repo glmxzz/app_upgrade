@@ -37,7 +37,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   static const apkUrl =
-      'https://d4608e3e07fd93f5f4d35ba6b67a5876.dlied1.cdntips.net/downv6.qq.com/qqweb/QQ_1/android_apk/Android_8.9.28.10155_537147618_64.apk?mkey=65811a1c716336ed&f=dc62&cip=113.99.16.24&proto=https&access_type=&tx_domain=down.qq.com&tx_path=%2Fqqweb%2F&tx_id=6c9382a8c8';
+      'https://d-02.winudf.com/custom/com.apkpure.aegon-3201137.apk?_fn=QVBLUHVyZV92My4yMC4xMTAzX2Fwa3B1cmUuY29tLmFwaw&_p=Y29tLmFwa3B1cmUuYWVnb24&am=-gcQ5KVp7I2UCe42mWkqvA&arg=apkpure%3A%2F%2Fcampaign%2F%3Freport_context%3D%7B%22channel_id%22%3A2010%7D&at=1731292492&download_id=1523808321705386&k=c109515f0c89c820263cd6c9cf7f34fb6732bed0&r=https%3A%2F%2Fwww.google.com.hk%2F&uu=http%3A%2F%2F172.16.53.1%2Fcustom%2Fcom.apkpure.aegon-3201137.apk%3Fk%3D436249cd58ced144dcffabfa0513284f6732bed01';
   AppInfo? _appInfo;
   String _installMarkets = '';
 
@@ -56,9 +56,6 @@ class _HomeState extends State<Home> {
         contents: [
           '1、支持立体声蓝牙耳机，同时改善配对性能',
           '2、提供屏幕虚拟键盘',
-          '3、更简洁更流畅，使用起来更快',
-          '4、修复一些软件在使用时自动退出bug',
-          '5、新增加了分类查看功能'
         ],
         force: false,
       );
@@ -85,12 +82,16 @@ class _HomeState extends State<Home> {
     AppUpgrade.appUpgrade(
       context,
       _checkVersion(),
+      backgroundColor: const Color(0xff292929),
       cancelText: '以后再说',
       okText: '马上升级',
       iosAppId: 'id444934666',
       // appMarketInfo: AppMarket.tencent,
-      okBackgroundColors: [const Color(0xFF765CFE), const Color(0xFF765CFE)],
-      progressBarColor: const Color(0xFF5A46BE).withOpacity(.4),
+      okBackgroundColors: [const Color(0xFF0257F6), const Color(0xFF0257F6)],
+      progressColor: const Color(0xff292929).withOpacity(.4),
+      progressBgColor: const Color(0xFF5A46BE).withOpacity(.4),
+      progressTextStyle: TextStyle(color: Colors.white70),
+      progressHeight: 30.0,
       isDark: true,
       onCancel: () {
         debugPrint('onCancel');

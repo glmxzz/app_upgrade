@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -7,6 +8,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../app_upgrade.dart';
 import 'app_market.dart';
 import 'download_status.dart';
+import 'package:intl/intl.dart';
 
 ///
 /// des:app升级提示控件
@@ -22,8 +24,10 @@ class SimpleAppUpgradeWidget extends StatefulWidget {
   final String? okText; // 确认控件
   final TextStyle? okTextStyle; // 确认控件样式
   final List<Color>? okBackgroundColors; // 确认控件背景颜色,2种颜色左到右线性渐变
-  final Widget? progressBar; // 下载进度条
-  final Color? progressBarColor; // 进度条颜色
+  final Color? progressColor;// 进度条颜色
+  final Color? progressBgColor;// 进度条背景颜色
+  final TextStyle? progressTextStyle;
+  final double progressHeight ;
   final double borderRadius; // 圆角半径
   final String? downloadUrl; // app安装包下载url,没有下载跳转到应用宝等渠道更新
   final bool force; // 是否强制升级,设置true没有取消按钮
@@ -46,8 +50,10 @@ class SimpleAppUpgradeWidget extends StatefulWidget {
     this.okText,
     this.okTextStyle,
     this.okBackgroundColors,
-    this.progressBar,
-    this.progressBarColor,
+    this.progressColor,
+    this.progressBgColor,
+    this.progressHeight = 20.0,
+    this.progressTextStyle,
     this.borderRadius = 10,
     this.downloadUrl,
     this.force = false,
@@ -78,9 +84,13 @@ class _SimpleAppUpgradeWidget extends State<SimpleAppUpgradeWidget> {
       children: <Widget>[
         _buildInfoWidget(context),
         _downloadProgress > 0
-            ? Positioned.fill(child: _buildDownloadProgress())
+            ? Positioned(
+            left: 0,
+            right: 0,
+            bottom: 75,
+            child: _buildDownloadProgress())
             : Container(
-                height: 10,
+                height: 10 + widget.progressHeight,
               )
       ],
     );
@@ -95,6 +105,7 @@ class _SimpleAppUpgradeWidget extends State<SimpleAppUpgradeWidget> {
         _buildTitle(),
         //更新信息
         _buildAppInfo(),
+
         //操作按钮
         _buildAction()
       ],
@@ -119,9 +130,9 @@ class _SimpleAppUpgradeWidget extends State<SimpleAppUpgradeWidget> {
   /// 构建版本更新信息
   _buildAppInfo() {
     return Container(
-        padding: const EdgeInsets.only(left: 15, right: 15, bottom: 30),
-        height: 200,
+        padding: EdgeInsets.only(left: 15, right: 15, bottom: (30 + widget.progressHeight)),
         child: ListView(
+          shrinkWrap: true, // 使 ListView 自适应高度
           children: widget.contents.map((f) {
             return Text(
               f,
@@ -244,20 +255,14 @@ class _SimpleAppUpgradeWidget extends State<SimpleAppUpgradeWidget> {
   /// 下载进度widget
   Widget _buildDownloadProgress() {
     return LinearPercentIndicator(
-      width: 140.0,
-      lineHeight: 14.0,
+      lineHeight: widget.progressHeight,
+      linearStrokeCap: LinearStrokeCap.roundAll,
+      barRadius:Radius.circular(widget.borderRadius),
       percent: _downloadProgress,
-      backgroundColor: Colors.grey,
-      progressColor: Colors.blue,
+      center: Text(NumberFormat.percentPattern().format(_downloadProgress), style: widget.progressTextStyle,),
+      backgroundColor: widget.progressBgColor,
+      progressColor: widget.progressColor,
     );
-    // , ??
-    //     LiquidLinearProgressIndicator(
-    //       value: _downloadProgress,
-    //       direction: Axis.vertical,
-    //       valueColor: AlwaysStoppedAnimation(widget.progressBarColor ??
-    //           Theme.of(context).primaryColor.withOpacity(0.4)),
-    //       borderRadius: widget.borderRadius,
-    //     );
   }
 
   /// 点击确定按钮
