@@ -19,6 +19,7 @@ class AppUpgrade {
         Color? progressColor,
         Color? progressBgColor,
         double progressHeight = 20.0,
+        double actionLayoutHeight = 60.0,
         TextStyle? progressTextStyle,
         double borderRadius = 20.0,
         String? iosAppId,
@@ -28,35 +29,38 @@ class AppUpgrade {
         DownloadProgressCallback? downloadProgress,
         DownloadStatusChangeCallback? downloadStatusChange,
         bool isDark = false,
+        Color? dividerColor,
+        double dividerWidth = 1.0,
       }) {
     future.then((AppUpgradeInfo? appUpgradeInfo) {
       if (appUpgradeInfo != null) {
         _showUpgradeDialog(
-          context,
-          appUpgradeInfo.title,
-          appUpgradeInfo.contents,
-          apkDownloadUrl: appUpgradeInfo.apkDownloadUrl,
-          backgroundColor: backgroundColor,
-          force: appUpgradeInfo.force,
-          titleStyle: titleStyle,
-          contentStyle: contentStyle,
-          cancelText: cancelText,
-          cancelTextStyle: cancelTextStyle,
-          okBackgroundColors: okBackgroundColors,
-          okText: okText,
-          okTextStyle: okTextStyle,
-          borderRadius: borderRadius,
-          progressColor: progressColor,
-          progressBgColor: progressBgColor,
-          progressTextStyle:progressTextStyle,
-          progressHeight: progressHeight,
-          iosAppId: iosAppId,
-          appMarketInfo: appMarketInfo,
-          onCancel: onCancel,
-          onOk: onOk,
-          downloadProgress: downloadProgress,
-          downloadStatusChange: downloadStatusChange,
-          isDark: isDark,
+            context, appUpgradeInfo.title, appUpgradeInfo.contents,
+            apkDownloadUrl: appUpgradeInfo.apkDownloadUrl,
+            backgroundColor: backgroundColor,
+            force: appUpgradeInfo.force,
+            titleStyle: titleStyle,
+            contentStyle: contentStyle,
+            cancelText: cancelText,
+            cancelTextStyle: cancelTextStyle,
+            okBackgroundColors: okBackgroundColors,
+            okText: okText,
+            okTextStyle: okTextStyle,
+            borderRadius: borderRadius,
+            progressColor: progressColor,
+            progressBgColor: progressBgColor,
+            progressTextStyle: progressTextStyle,
+            progressHeight: progressHeight,
+            actionLayoutHeight: actionLayoutHeight,
+            iosAppId: iosAppId,
+            appMarketInfo: appMarketInfo,
+            onCancel: onCancel,
+            onOk: onOk,
+            downloadProgress: downloadProgress,
+            downloadStatusChange: downloadStatusChange,
+            isDark: isDark,
+            dividerColor: dividerColor,
+            dividerWidth: dividerWidth
         );
       }
     }).catchError((onError) {
@@ -67,10 +71,9 @@ class AppUpgrade {
   ///
   /// 展示app升级提示框
   ///
-  static _showUpgradeDialog(BuildContext context,
-      String title,
-      List<String> contents, {
-        Color? backgroundColor,
+  static _showUpgradeDialog(BuildContext context, String title,
+      List<String> contents,
+      {Color? backgroundColor,
         String? apkDownloadUrl,
         bool force = false,
         TextStyle? titleStyle,
@@ -84,6 +87,7 @@ class AppUpgrade {
         Color? progressBgColor,
         TextStyle? progressTextStyle,
         double progressHeight = 20.0,
+        double actionLayoutHeight = 60.0,
         double borderRadius = 20.0,
         String? iosAppId,
         AppMarketInfo? appMarketInfo,
@@ -92,7 +96,8 @@ class AppUpgrade {
         DownloadProgressCallback? downloadProgress,
         DownloadStatusChangeCallback? downloadStatusChange,
         bool isDark = false,
-      }) {
+        Color? dividerColor,
+        double dividerWidth = 1.0}) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -100,8 +105,9 @@ class AppUpgrade {
           return PopScope(
             canPop: false,
             child: Dialog(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(
-                    Radius.circular(borderRadius))),
+                shape: RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.all(Radius.circular(borderRadius))),
                 backgroundColor: backgroundColor,
                 child: SimpleAppUpgradeWidget(
                   title: title,
@@ -112,15 +118,19 @@ class AppUpgrade {
                   cancelTextStyle: cancelTextStyle,
                   okText: okText,
                   okTextStyle: okTextStyle,
-                  okBackgroundColors: okBackgroundColors ?? [Theme
-                      .of(context)
-                      .primaryColor, Theme
-                      .of(context)
-                      .primaryColor
-                  ],
+                  okBackgroundColors: okBackgroundColors ??
+                      [
+                        Theme
+                            .of(context)
+                            .primaryColor,
+                        Theme
+                            .of(context)
+                            .primaryColor
+                      ],
                   progressColor: progressColor,
                   progressBgColor: progressBgColor,
                   progressHeight: progressHeight,
+                  actionLayoutHeight: actionLayoutHeight,
                   progressTextStyle: progressTextStyle,
                   borderRadius: borderRadius,
                   downloadUrl: apkDownloadUrl,
@@ -132,6 +142,8 @@ class AppUpgrade {
                   downloadProgress: downloadProgress,
                   downloadStatusChange: downloadStatusChange,
                   isDark: isDark,
+                  dividerColor: dividerColor,
+                  dividerWidth: dividerWidth,
                 )),
           );
         });
@@ -165,8 +177,8 @@ class AppUpgrade {
   /// 获取本机安装的应用市场
   static Future<List<String>> getInstallMarket(
       {List<String>? marketPackageNames}) async {
-    return AppUpgradePlatform.instance.getInstallMarket(
-        marketPackageNames: marketPackageNames);
+    return AppUpgradePlatform.instance
+        .getInstallMarket(marketPackageNames: marketPackageNames);
   }
 }
 
@@ -199,4 +211,5 @@ class AppUpgradeInfo {
 typedef DownloadProgressCallback = Function(int count, int total);
 
 /// 下载状态变化回调
-typedef DownloadStatusChangeCallback = Function(DownloadStatus downloadStatus, {dynamic error});
+typedef DownloadStatusChangeCallback = Function(DownloadStatus downloadStatus,
+    {dynamic error});

@@ -91,7 +91,10 @@ class _HomeState extends State<Home> {
       progressColor: const Color(0xff292929).withOpacity(.4),
       progressBgColor: const Color(0xFF5A46BE).withOpacity(.4),
       progressTextStyle: TextStyle(color: Colors.white70),
+      actionLayoutHeight: 47,
       progressHeight: 30.0,
+      dividerColor: Colors.black,
+      dividerWidth: 1,
       isDark: true,
       onCancel: () {
         debugPrint('onCancel');
